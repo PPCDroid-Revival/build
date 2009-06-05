@@ -43,9 +43,16 @@ endif
 ###########################################################
 ## Define arm-vs-thumb-mode flags.
 ###########################################################
+ifeq ($(TARGET_ARCH),arm)
 LOCAL_ARM_MODE := $(strip $(LOCAL_ARM_MODE))
 arm_objects_mode := $(if $(LOCAL_ARM_MODE),$(LOCAL_ARM_MODE),arm)
 normal_objects_mode := $(if $(LOCAL_ARM_MODE),$(LOCAL_ARM_MODE),thumb)
+else
+ifeq ($(TARGET_ARCH),mips)
+arm_objects_mode := mips
+normal_objects_mode := mips
+endif
+endif
 
 # Read the values from something like TARGET_arm_CFLAGS or
 # TARGET_thumb_CFLAGS.  HOST_(arm|thumb)_CFLAGS values aren't
