@@ -49,7 +49,7 @@ $(combo_target)NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
 $(combo_target)GLOBAL_CFLAGS += \
 			-O2 \
 			-fomit-frame-pointer\
-			-fno-strict-aliasing \
+			-fstrict-aliasing \
 			-funswitch-loops \
 			-fPIC \
 			-ffunction-sections \
