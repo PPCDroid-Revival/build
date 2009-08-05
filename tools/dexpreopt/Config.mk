@@ -38,7 +38,7 @@ built_dowrapper := \
 dexpreopt_initrc := $(intermediates)/etc/init.rc
 geninitrc_script := $(LOCAL_PATH)/geninitrc.awk
 $(dexpreopt_initrc): script := $(geninitrc_script)
-$(dexpreopt_initrc): system/core/rootdir/init.rc $(geninitrc_script)
+$(dexpreopt_initrc): $(PRODUCT_OUT)/root/init.rc $(geninitrc_script)
 	@echo "Dexpreopt init.rc: $@"
 	@mkdir -p $(dir $@)
 	$(hide) awk -f $(script) < $< > $@

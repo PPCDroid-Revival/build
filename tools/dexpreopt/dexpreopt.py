@@ -110,7 +110,7 @@ def StartEmulator(exe_name='emulator', kernel=None,
   if image: args += ['-system', image]
   if userdata: args += ['-initdata', userdata, '-data', userdata]
   if system: args += ['-sysdir', system]
-  args += ['-partition-size', '128']
+  args += ['-partition-size', '330']
   args += ['-no-window', '-netfast', '-noaudio']
 
   _USE_PIPE = True
