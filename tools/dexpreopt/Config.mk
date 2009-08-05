@@ -99,7 +99,7 @@ $(BUILT_DEXPREOPT_SYSTEMIMAGE):
 	$(hide) \
 	    PATH=$(HOST_OUT_EXECUTABLES):$$PATH \
 	    $(DEXPREOPT) \
-		    --kernel prebuilt/android-arm/kernel/kernel-qemu \
+		    --kernel prebuilt/android-$(TARGET_ARCH)/kernel/kernel-qemu \
 		    --ramdisk $(BUILT_DEXPREOPT_RAMDISK) \
 		    --image $(BUILT_SYSTEMIMAGE_UNOPT) \
 		    --system $(PRODUCT_OUT) \
