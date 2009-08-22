@@ -82,3 +82,38 @@ LOCAL_MODULE := soslim
 
 include $(BUILD_HOST_EXECUTABLE)
 endif #TARGET_ARCH==mips
+
+ifeq ($(TARGET_ARCH),ppc)
+include $(CLEAR_VARS)
+
+LOCAL_LDLIBS += -ldl
+LOCAL_CFLAGS += -O2 -g
+LOCAL_CFLAGS += -fno-function-sections -fno-data-sections -fno-inline
+LOCAL_CFLAGS += -Wall -Wno-unused-function #-Werror
+LOCAL_CFLAGS += -DSUPPORT_ANDROID_PRELINK_TAGS
+LOCAL_CFLAGS += -DDEBUG
+LOCAL_CFLAGS += -DSTRIP_STATIC_SYMBOLS
+LOCAL_CFLAGS += -DMOVE_SECTIONS_IN_RANGES
+
+LOCAL_SRC_FILES := \
+        cmdline.c \
+        common.c \
+        debug.c \
+        soslim.c \
+        main.c \
+        prelink_info.c \
+        symfilter.c
+
+LOCAL_C_INCLUDES:= \
+	$(LOCAL_PATH)/ \
+	external/elfutils/lib/ \
+	external/elfutils/libelf/ \
+	external/elfutils/libebl/ \
+	external/elfcopy/
+
+LOCAL_STATIC_LIBRARIES := libelfcopy libelf libebl #dl
+
+LOCAL_MODULE := soslim
+
+include $(BUILD_HOST_EXECUTABLE)
+endif #TARGET_ARCH==ppc
