@@ -123,10 +123,25 @@ ifeq ($(strip $(LOCAL_STRIP_MODULE)),)
   LOCAL_STRIP_MODULE := $(strip $(TARGET_STRIP_MODULE))
 endif
 
+ifeq ($(strip $(LOCAL_GNU_STRIP_MODULE)),)
+  LOCAL_GNU_STRIP_MODULE := $(strip $(TARGET_GNU_STRIP_MODULE))
+endif
+
 ifeq ($(LOCAL_STRIP_MODULE),true)
 # Strip the binary
 $(strip_output): $(strip_input) | $(SOSLIM)
 	$(transform-to-stripped)
+else
+# If we aren't prelinking and we're asked to use GNU strip, we can do
+# that.  Otherwise we won't do any stripping at all.
+ifeq ($(TARGET_GNU_STRIP_MODULE),true)
+# We cannot allow GNU strip and PRELINK to coexist.
+ifeq ($(LOCAL_PRELINK_MODULE),true)
+$(error Internal error: PRELINK and GNU_STRIP are not compatible)
+endif
+$(strip_output): $(strip_input)
+	@echo "target GNU stripped: $(PRIVATE_MODULE) ($@)"
+	$(transform-to-gnu-stripped)
 else
 # Don't strip the binary, just copy it.  We can't skip this step
 # because a copy of the binary must appear at LOCAL_BUILT_MODULE.
@@ -142,6 +157,7 @@ $(strip_output): $(strip_input)
 	@echo "target Unstripped: $(PRIVATE_MODULE) ($@)"
 	$(copy-file-to-target-with-cp)
 endif
+endif # LOCAL_GNU_STRIP_MODULE
 endif # LOCAL_STRIP_MODULE
 
 

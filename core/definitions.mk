@@ -1033,32 +1033,21 @@ endef
 ## Commands for filtering a target executable or library
 ###########################################################
 
-ifeq ($(TARGET_ARCH),ppc)
-    TARGET_FAKE_STRIP :=y
-else
-  ifeq ($(TARGET_ARCH),mips)
-    TARGET_FAKE_STRIP := y
-  else
-    TARGET_FAKE_STRIP :=n
-  endif
-endif
-
 # Because of bug 743462 ("Prelinked image magic gets stripped
 # by arm-elf-objcopy"), we have to use soslim to strip target
 # binaries.
-ifeq ($(TARGET_FAKE_STRIP),y)
-define transform-to-stripped
-@mkdir -p $(dir $@)
-@echo "target Strip (fake): $(PRIVATE_MODULE) ($@)"
-$(hide) cp $<  $@
-endef
-else
 define transform-to-stripped
 @mkdir -p $(dir $@)
 @echo "target Strip: $(PRIVATE_MODULE) ($@)"
 $(hide) $(SOSLIM) --strip --shady --quiet $< --outfile $@
 endef
-endif
+
+# Allow for GNU strip to be used in the case where prelinking is not done.
+define transform-to-gnu-stripped
+@mkdir -p $(dir $@)
+@echo "target GNU Strip: $(PRIVATE_MODULE) ($@)"
+$(hide) $(TARGET_STRIP) --strip-unneeded $< -o $@
+endef
 
 define transform-to-prelinked
 @mkdir -p $(dir $@)
