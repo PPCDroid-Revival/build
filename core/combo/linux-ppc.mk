@@ -2,9 +2,9 @@
 # Included by combo/select.make
 
 # You can set TARGET_ARCH_VERSION to use an arch version other
-# than e500
+# than e500.  Use classic for now, however
 ifeq ($(strip $(TARGET_ARCH_VERSION)),)
-TARGET_ARCH_VERSION := e500
+TARGET_ARCH_VERSION := classic
 endif
 
 # This set of if blocks sets makefile variables similar to preprocesser
@@ -26,9 +26,13 @@ endif
 # variables.
 
 ifeq ($(TARGET_ARCH_VERSION),e500)
-arch_version_cflags := -mbig
+arch_version_cflags := -mcpu=8540 -mspe -mabi=spe -mfloat-gprs=double
+else
+ifeq ($(TARGET_ARCH_VERSION),classic)
+arch_version_cflags := -mcpu=603e
 else
 $(error Unknown PPC architecture version: $(TARGET_ARCH_VERSION))
+endif
 endif
 
 # You can set TARGET_TOOLS_PREFIX to get gcc from somewhere else
@@ -142,7 +146,7 @@ endef
 define transform-o-to-executable-inner
 $(TARGET_CXX) -nostdlib -Bdynamic \
 	-Wl,-dynamic-linker,/system/bin/linker \
-    -Wl,--gc-sections \
+	-Wl,--gc-sections \
 	-Wl,-z,nocopyreloc \
 	-o $@ \
 	$(TARGET_GLOBAL_LD_DIRS) \
@@ -158,7 +162,7 @@ endef
 
 define transform-o-to-static-executable-inner
 $(TARGET_CXX) -nostdlib -Bstatic \
-    -Wl,--gc-sections \
+	-Wl,--gc-sections \
 	-o $@ \
 	$(TARGET_GLOBAL_LD_DIRS) \
 	$(TARGET_CRTBEGIN_STATIC_O) \
