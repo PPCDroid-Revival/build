@@ -401,6 +401,7 @@ subdirs := \
 	build/tools/apriori \
 	build/tools/kcm \
 	build/tools/soslim \
+	frameworks/base/libs/utils \
 	external/elfcopy \
 	external/elfutils \
 	external/yaffs2 \
