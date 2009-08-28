@@ -59,7 +59,11 @@ $(combo_target)GLOBAL_CFLAGS += \
 			$(arch_version_cflags) \
 			-include $(call select-android-config-h,linux-mips)
 
+$(combo_target)GLOBAL_C_OR_S_FLAGS += \
+			-ffreestanding
+
 $(combo_target)GLOBAL_CPPFLAGS += \
+			-fno-builtin \
 			-fvisibility-inlines-hidden \
 			-fno-use-cxa-atexit
 
@@ -143,7 +147,7 @@ endef
 define transform-o-to-executable-inner
 $(TARGET_CXX) -nostdlib -Bdynamic \
 	-Wl,-dynamic-linker,/system/bin/linker \
-    -Wl,--gc-sections $(MIPS_ENDIAN) \
+	-Wl,--gc-sections $(MIPS_ENDIAN) \
 	-Wl,-z,nocopyreloc \
 	-o $@ \
 	$(TARGET_GLOBAL_LD_DIRS) \
@@ -159,7 +163,7 @@ endef
 
 define transform-o-to-static-executable-inner
 $(TARGET_CXX) -nostdlib -Bstatic \
-    -Wl,--gc-sections $(MIPS_ENDIAN)\
+	-Wl,--gc-sections $(MIPS_ENDIAN)\
 	-o $@ \
 	$(TARGET_GLOBAL_LD_DIRS) \
 	$(TARGET_CRTBEGIN_STATIC_O) \
