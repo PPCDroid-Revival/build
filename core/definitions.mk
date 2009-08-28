@@ -762,6 +762,7 @@ $(hide) $(PRIVATE_CC) \
 	-c \
 	$(if $(PRIVATE_NO_DEFAULT_COMPILER_FLAGS),, \
 	    $(TARGET_GLOBAL_CFLAGS) \
+	    $(TARGET_GLOBAL_C_OR_S_FLAGS) \
 	    $(PRIVATE_ARM_CFLAGS) \
 	 ) \
 	$(PRIVATE_CFLAGS) \
