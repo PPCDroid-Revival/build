@@ -59,11 +59,13 @@ $(combo_target)GLOBAL_CFLAGS += \
 			$(arch_version_cflags) \
 			-include $(call select-android-config-h,linux-mips)
 
-$(combo_target)GLOBAL_C_OR_S_FLAGS += \
-			-ffreestanding
+# What this really means to gcc is simply not glibc.  More specifically, this
+# says that our libc is not C99 compliant wrt the TARGET_C99_FUNCTIONS macro:
+# When this macro is nonzero, GCC will implicitly optimize sin(float) calls
+# into sinf(float) and similarly for other functions defined by C99 standard.
+$(combo_target)GLOBAL_CFLAGS += -muclibc
 
 $(combo_target)GLOBAL_CPPFLAGS += \
-			-fno-builtin \
 			-fvisibility-inlines-hidden \
 			-fno-use-cxa-atexit
 
