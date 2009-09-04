@@ -29,7 +29,7 @@ ifeq ($(TARGET_ARCH_VERSION),e500)
 arch_version_cflags := -mcpu=8540 -mspe -mabi=spe -mfloat-gprs=double
 else
 ifeq ($(TARGET_ARCH_VERSION),classic)
-arch_version_cflags := -mcpu=603e
+arch_version_cflags := -mcpu=603e -mregnames
 else
 $(error Unknown PPC architecture version: $(TARGET_ARCH_VERSION))
 endif
