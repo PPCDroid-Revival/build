@@ -127,6 +127,16 @@ ifeq ($(strip $(LOCAL_GNU_STRIP_MODULE)),)
   LOCAL_GNU_STRIP_MODULE := $(strip $(TARGET_GNU_STRIP_MODULE))
 endif
 
+# If we are a debug build, we don't want to strip.  Nor do we want to strip
+# engr builds.  This is to allow gdb to be used easier.  However, we cannot
+# not run soslim on ARM, so we only toggle GNU strip.
+ifeq ($(TARGET_BUILD_VARIANT),eng)
+  LOCAL_GNU_STRIP_MODULE := false
+endif
+ifeq ($(TARGET_BUILD_TYPE),debug)
+  LOCAL_GNU_STRIP_MODULE := false
+endif
+
 ifeq ($(LOCAL_STRIP_MODULE),true)
 # Strip the binary
 $(strip_output): $(strip_input) | $(SOSLIM)
@@ -134,13 +144,12 @@ $(strip_output): $(strip_input) | $(SOSLIM)
 else
 # If we aren't prelinking and we're asked to use GNU strip, we can do
 # that.  Otherwise we won't do any stripping at all.
-ifeq ($(TARGET_GNU_STRIP_MODULE),true)
+ifeq ($(LOCAL_GNU_STRIP_MODULE),true)
 # We cannot allow GNU strip and PRELINK to coexist.
 ifeq ($(LOCAL_PRELINK_MODULE),true)
 $(error Internal error: PRELINK and GNU_STRIP are not compatible)
 endif
 $(strip_output): $(strip_input)
-	@echo "target GNU stripped: $(PRIVATE_MODULE) ($@)"
 	$(transform-to-gnu-stripped)
 else
 # Don't strip the binary, just copy it.  We can't skip this step
