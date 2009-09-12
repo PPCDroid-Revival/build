@@ -26,10 +26,10 @@ endif
 # variables.
 
 ifeq ($(TARGET_ARCH_VERSION),e500)
-arch_version_cflags := -mcpu=8540 -mspe -mabi=spe -mfloat-gprs=double
+arch_version_cflags := -mcpu=8540 -mspe -mabi=spe -mfloat-gprs=double -misel
 else
 ifeq ($(TARGET_ARCH_VERSION),classic)
-arch_version_cflags := -mcpu=603e -mregnames
+arch_version_cflags := -mcpu=603e -mno-isel
 else
 $(error Unknown PPC architecture version: $(TARGET_ARCH_VERSION))
 endif
@@ -41,8 +41,8 @@ $(combo_target)TOOLS_PREFIX := \
 	prebuilt/$(HOST_PREBUILT_TAG)/toolchain/powerpc-linux-4.2.1/bin/powerpc-android-linux-gnuspe-
 endif
 
-$(combo_target)CC := $($(combo_target)TOOLS_PREFIX)gcc$(HOST_EXECUTABLE_SUFFIX)
-$(combo_target)CXX := $($(combo_target)TOOLS_PREFIX)g++$(HOST_EXECUTABLE_SUFFIX)
+$(combo_target)CC := $($(combo_target)TOOLS_PREFIX)gcc$(HOST_EXECUTABLE_SUFFIX) $(arch_version_cflags)
+$(combo_target)CXX := $($(combo_target)TOOLS_PREFIX)g++$(HOST_EXECUTABLE_SUFFIX) $(arch_version_cflags)
 $(combo_target)AR := $($(combo_target)TOOLS_PREFIX)ar$(HOST_EXECUTABLE_SUFFIX)
 $(combo_target)OBJCOPY := $($(combo_target)TOOLS_PREFIX)objcopy$(HOST_EXECUTABLE_SUFFIX)
 $(combo_target)LD := $($(combo_target)TOOLS_PREFIX)ld$(HOST_EXECUTABLE_SUFFIX)
@@ -52,6 +52,7 @@ $(combo_target)NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
 
 $(combo_target)GLOBAL_CFLAGS += \
 			-O2 \
+			-mregnames \
 			-fomit-frame-pointer\
 			-fstrict-aliasing \
 			-funswitch-loops \
@@ -59,7 +60,6 @@ $(combo_target)GLOBAL_CFLAGS += \
 			-ffunction-sections \
 			-funwind-tables \
 			-fno-short-enums \
-			$(arch_version_cflags) \
 			-include $(call select-android-config-h,linux-ppc)
 
 # What this really means to gcc is simply not glibc.  More specifically, this
