@@ -38,7 +38,7 @@ endif
 # You can set TARGET_TOOLS_PREFIX to get gcc from somewhere else
 ifeq ($(strip $($(combo_target)TOOLS_PREFIX)),)
 $(combo_target)TOOLS_PREFIX := \
-	prebuilt/$(HOST_PREBUILT_TAG)/toolchain/powerpc-linux-4.2.1/bin/powerpc-android-linux-gnuspe-
+	prebuilt/$(HOST_PREBUILT_TAG)/toolchain/powerpc-linux-4.3.1/bin/powerpc-android-linux-gnuspe-
 endif
 
 $(combo_target)CC := $($(combo_target)TOOLS_PREFIX)gcc$(HOST_EXECUTABLE_SUFFIX) $(arch_version_cflags)
