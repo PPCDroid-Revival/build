@@ -1121,6 +1121,10 @@ sdk_atree_files := \
 	$(atree_dir)/sdk.atree \
 	$(atree_dir)/sdk-$(HOST_OS)-$(HOST_ARCH).atree
 
+ifeq ($(TARGET_ARCH),ppc)
+sdk_atree_files += $(atree_dir)/sdk-ppc.atree
+endif
+
 deps := \
 	$(target_notice_file_txt) \
 	$(tools_notice_file_txt) \
