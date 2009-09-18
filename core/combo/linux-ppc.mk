@@ -24,22 +24,27 @@ endif
 # fine. If/when this becomes large, please change this to include
 # architecture versions specific Makefiles which define these
 # variables.
+#
+# You can set TARGET_TOOLS_PREFIX to get gcc from somewhere else
 
 ifeq ($(TARGET_ARCH_VERSION),e500)
 arch_version_cflags := -mcpu=8540 -mspe -mabi=spe -mfloat-gprs=double -misel
+ifeq ($(strip $($(combo_target)TOOLS_PREFIX)),)
+$(combo_target)TOOLS_PREFIX := \
+	prebuilt/$(HOST_PREBUILT_TAG)/toolchain/powerpc-linux-gnuspe-4.3.1/bin/powerpc-android-linux-gnuspe-
+endif
 else
 ifeq ($(TARGET_ARCH_VERSION),classic)
 arch_version_cflags := -mcpu=603e -mno-isel
+ifeq ($(strip $($(combo_target)TOOLS_PREFIX)),)
+$(combo_target)TOOLS_PREFIX := \
+	prebuilt/$(HOST_PREBUILT_TAG)/toolchain/powerpc-linux-4.3.1/bin/powerpc-android-linux-
+endif
 else
 $(error Unknown PPC architecture version: $(TARGET_ARCH_VERSION))
 endif
 endif
 
-# You can set TARGET_TOOLS_PREFIX to get gcc from somewhere else
-ifeq ($(strip $($(combo_target)TOOLS_PREFIX)),)
-$(combo_target)TOOLS_PREFIX := \
-	prebuilt/$(HOST_PREBUILT_TAG)/toolchain/powerpc-linux-4.3.1/bin/powerpc-android-linux-gnuspe-
-endif
 
 $(combo_target)CC := $($(combo_target)TOOLS_PREFIX)gcc$(HOST_EXECUTABLE_SUFFIX) $(arch_version_cflags)
 $(combo_target)CXX := $($(combo_target)TOOLS_PREFIX)g++$(HOST_EXECUTABLE_SUFFIX) $(arch_version_cflags)
