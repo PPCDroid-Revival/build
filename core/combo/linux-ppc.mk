@@ -186,4 +186,3 @@ endef
 
 # We need to set these LOCAL variables, for now.
 LOCAL_ARM_MODE := ppc
-DISABLE_DEXPREOPT := true

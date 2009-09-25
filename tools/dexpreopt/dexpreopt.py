@@ -125,6 +125,9 @@ def StartEmulator(exe_name='emulator', kernel=None,
   else:
     args += ['-shell']
 
+  if os.environ.get('TARGET_ARCH') == "ppc":
+    args += ['-qemu', '-L', 'prebuilt/android-ppc/kernel']
+
   # Ensure that this environment variable isn't set;
   # if it is, the emulator will print the log to stdout.
   if os.environ.get('ANDROID_LOG_TAGS'):

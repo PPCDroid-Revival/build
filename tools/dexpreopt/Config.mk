@@ -98,6 +98,7 @@ $(BUILT_DEXPREOPT_SYSTEMIMAGE):
 	@mkdir -p $(DEXPREOPT_TMP)
 	$(hide) \
 	    PATH=$(HOST_OUT_EXECUTABLES):$$PATH \
+	    TARGET_ARCH=$(TARGET_ARCH) \
 	    $(DEXPREOPT) \
 		    --kernel prebuilt/android-$(TARGET_ARCH)/kernel/kernel-qemu \
 		    --ramdisk $(BUILT_DEXPREOPT_RAMDISK) \
