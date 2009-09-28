@@ -11,6 +11,8 @@
 #include <string>
 #include <utils/ByteOrder.h>
 
+#ifdef __powerpc__
+
 static inline uint32_t android_swap_long(uint32_t v)
 {
     return (v<<24) | ((v<<8)&0x00FF0000) | ((v>>8)&0x0000FF00) | (v>>24);
@@ -25,6 +27,8 @@ static inline uint16_t android_swap_short(uint16_t v)
 #undef htods
 #define htodl(x)        (android_swap_long(x))
 #define htods(x)        (android_swap_short(x))
+
+#endif
 
 using namespace std;
 
