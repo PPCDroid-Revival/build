@@ -11,7 +11,7 @@
 #include <string>
 #include <utils/ByteOrder.h>
 
-#ifdef __powerpc__
+#ifdef TARGET_BIG_ENDIAN
 
 static inline uint32_t android_swap_long(uint32_t v)
 {
