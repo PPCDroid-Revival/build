@@ -1125,6 +1125,10 @@ ifeq ($(TARGET_ARCH),ppc)
 sdk_atree_files += $(atree_dir)/sdk-ppc.atree
 endif
 
+ifeq ($(TARGET_ARCH),mips)
+sdk_atree_files += $(atree_dir)/sdk-mips.atree
+endif
+
 deps := \
 	$(target_notice_file_txt) \
 	$(tools_notice_file_txt) \
