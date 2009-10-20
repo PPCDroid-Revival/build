@@ -583,14 +583,14 @@ endif
 # Don't include any GNU targets in the SDK.  It's ok (and necessary)
 # to build the host tools, but nothing that's going to be installed
 # on the target (including static libraries).
-ifdef is_sdk_build
+ifeq ($(NO_EXTRA_GNU_TOOLS),true)
   target_gnu_MODULES := \
               $(filter \
                       $(TARGET_OUT_INTERMEDIATES)/% \
                       $(TARGET_OUT)/% \
                       $(TARGET_OUT_DATA)/%, \
                               $(sort $(call get-tagged-modules,gnu)))
-  $(info Removing from sdk:)$(foreach d,$(target_gnu_MODULES),$(info : $(d)))
+  $(info Removing:)$(foreach d,$(target_gnu_MODULES),$(info : $(d)))
   modules_to_install := \
               $(filter-out $(target_gnu_MODULES),$(modules_to_install))
 endif
