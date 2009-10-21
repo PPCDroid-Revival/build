@@ -303,7 +303,7 @@ def WaitForEmulator(ep, timeout=0):
   print >>ep.stdin, ''
 
   # Wait until the console is ready and the first prompt appears.
-  buf = WaitForString(ep.stdout, '#', timeout=timeout, eat_to_eol=False)
+  buf = WaitForString(ep.stdout, '\n#', timeout=timeout, eat_to_eol=False)
   if buf:
     Trace('Saw the prompt: "%s"' % buf.tostring())
     return True
