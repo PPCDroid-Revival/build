@@ -11,6 +11,15 @@
 #include <string>
 #include <utils/ByteOrder.h>
 
+#ifdef TARGET_BIG_ENDIAN
+
+#undef htodl
+#undef htods
+#define htodl(x)        (android_swap_long(x))
+#define htods(x)        (android_swap_short(x))
+
+#endif
+
 using namespace std;
 
 enum {
