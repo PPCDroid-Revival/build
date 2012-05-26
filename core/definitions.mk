@@ -1702,9 +1702,10 @@ endef
 #
 # $(1): The file(s) to check (often $@)
 # $(2): The partition size.
+# $(3): the type of filesystem "yaffs" or "raw"
 define assert-max-image-size
 $(if $(2), \
-  $(call assert-max-file-size,$(1),$(call image-size-from-data-size,$(2))), \
+  $(call assert-max-file-size,$(1),$(call image-size-from-data-size,$(2)),$(3)), \
   true)
 endef
 
