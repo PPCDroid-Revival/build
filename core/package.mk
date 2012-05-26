@@ -258,12 +258,15 @@ else
 # Most packages should link against the resources defined by framework-res.
 # Even if they don't have their own resources, they may use framework
 # resources.
-ifneq ($(filter-out current,$(LOCAL_SDK_VERSION)),)
-# for released sdk versions, the platform resources were built into android.jar.
-framework_res_package_export := \
-	$(HISTORICAL_SDK_VERSIONS_ROOT)/$(LOCAL_SDK_VERSION)/android.jar
-framework_res_package_export_deps := $(framework_res_package_export)
-else # LOCAL_SDK_VERSION
+# As a matter of hack, do not try to use prebuilt jars for BigEndian
+# targets, as resources in those jars are compiled for LittleEndian
+# targets
+#ifneq ($(filter-out current,$(LOCAL_SDK_VERSION)),)
+## for released sdk versions, the platform resources were built into android.jar.
+#framework_res_package_export := \
+#	$(HISTORICAL_SDK_VERSIONS_ROOT)/$(LOCAL_SDK_VERSION)/android.jar
+#framework_res_package_export_deps := $(framework_res_package_export)
+#else # LOCAL_SDK_VERSION
 framework_res_package_export := \
 	$(call intermediates-dir-for,APPS,framework-res,,COMMON)/package-export.apk
 # We can't depend directly on the export.apk file; it won't get its
@@ -271,7 +274,7 @@ framework_res_package_export := \
 # corresponding R.stamp file, which lists the export.apk as a dependency.
 framework_res_package_export_deps := \
 	$(dir $(framework_res_package_export))src/R.stamp
-endif # LOCAL_SDK_VERSION
+#endif # LOCAL_SDK_VERSION
 $(R_file_stamp): $(framework_res_package_export_deps)
 $(LOCAL_INTERMEDIATE_TARGETS): \
 	PRIVATE_AAPT_INCLUDES := $(framework_res_package_export)
