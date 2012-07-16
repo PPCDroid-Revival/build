@@ -223,15 +223,15 @@ main(int argc, char** argv)
     err = write(out, "keychar", 8);
     if (err == -1) goto bad_write;
 
-    n = htodl(0x12345678);
+    n = tolel(0x12345678);
     err = write(out, &n, 4);
     if (err == -1) goto bad_write;
 
-    n = htodl(0x00000002);
+    n = tolel(0x00000002);
     err = write(out, &n, 4);
     if (err == -1) goto bad_write;
 
-    n = htodl(count);
+    n = tolel(count);
     err = write(out, &n, 4);
     if (err == -1) goto bad_write;
 
@@ -411,9 +411,9 @@ write_kr(int fd, const KeyRecord& kr)
 {
     WrittenRecord wr;
 
-    wr.keycode = htodl(kr.values[0]);
+    wr.keycode = tolel(kr.values[0]);
     for (int i=0; i<COLUMNS - 1; i++) {
-        wr.values[i] = htods(kr.values[i+1]);
+        wr.values[i] = toles(kr.values[i+1]);
     }
 
     return write(fd, &wr, sizeof(WrittenRecord));
