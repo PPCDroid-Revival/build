@@ -177,13 +177,6 @@ include $(BUILD_SYSTEM)/combo/select.mk
 # Pick a Java compiler.
 include $(BUILD_SYSTEM)/combo/javac.mk
 
-# We depend on target telling us if it's bigendian
-ifeq (x$(ARCH_HAVE_BIGENDIAN),xtrue)
-COMMON_GLOBAL_CPPFLAGS += -DDEVICE_BYTE_ORDER=BIG_ENDIAN
-else
-COMMON_GLOBAL_CPPFLAGS += -DDEVICE_BYTE_ORDER=LITTLE_ENDIAN
-endif
-
 # ---------------------------------------------------------------
 # Check that the configuration is current.  We check that
 # BUILD_ENV_SEQUENCE_NUMBER is current against this value.
