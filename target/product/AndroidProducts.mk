@@ -39,6 +39,7 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/generic_powerpc.mk \
     $(LOCAL_DIR)/generic_x86.mk \
     $(LOCAL_DIR)/full.mk \
+    $(LOCAL_DIR)/full_powerpc.mk \
     $(LOCAL_DIR)/full_x86.mk \
     $(LOCAL_DIR)/sdk.mk \
     $(LOCAL_DIR)/sdk_powerpc.mk \
